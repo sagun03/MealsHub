@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 
 export type ToastPosition =
   | "top-left"
@@ -17,7 +18,7 @@ export interface IAddToast {
   /**
    * element for toast (not mandatory)
    */
-  childElement?: Element;
+  childElement?: React.ReactElement;
   /**
    * css for main div of toast (not mandatory)
    */
@@ -53,28 +54,63 @@ const useToast = () => {
   const timeoutRef = useRef<number | null>(null);
 
   const addToast = (props: IAddToast) => {
+    console.log(props);
     const { autoHideDuration = 2000 } = props;
     setShowToast(true);
     setProps(props);
+    if (!timeoutRef.current) {
     timeoutRef.current = window.setTimeout(() => {
       setShowToast(false);
       setProps({});
     }, autoHideDuration);
+  }
   };
   const getPositionStyles = (position: string) => {
     switch (position) {
       case "top-left":
-        return { top: "10", left: "10" };
+        return {
+          top: "1.5rem",
+          left: "1.5rem",
+          bottom: "unset",
+          right: "unset",
+        };
       case "top-right":
-        return { top: "10", right: "10" };
+        return {
+          top: "1.5rem",
+          right: "1.5rem",
+          bottom: "unset",
+          left: "unset",
+        };
       case "bottom-left":
-        return { bottom: "10", left: "10" };
+        return {
+          bottom: "1.5rem",
+          left: "1.5rem",
+          top: "unset",
+          right: "unset",
+        };
       case "bottom-right":
-        return { bottom: "10", right: "10" };
+        return {
+          bottom: "1.5rem",
+          right: "1.5rem",
+          top: "unset",
+          left: "unset",
+        };
       case "top-center":
-        return { top: "10", right: "50%" };
+        return {
+          top: "1.5rem",
+          right: "51%",
+          transform: "translateX(50%)",
+          bottom: "unset",
+          left: "unset",
+        };
       case "bottom-center":
-        return { bottom: "10", right: "50%" };
+        return {
+          bottom: "1.5rem",
+          right: "50%",
+          transform: "translateX(50%)",
+          top: "unset",
+          left: "unset",
+        };
       default:
         return {};
     }
@@ -114,12 +150,27 @@ const useToast = () => {
         pElement.textContent = content;
         // Apply custom styles on content
         if (contentStyle) {
-          Object.assign(pElement.style, contentStyle);
+          Object.entries(contentStyle).forEach(
+            ([key, value]: [string, string]) => {
+              pElement.style[key as any] = value;
+            }
+          );
         }
         portalElement.appendChild(pElement);
       }
 
-      if (childElement) portalElement.appendChild(childElement);
+      if (childElement !== undefined && childElement !== null) {
+        if (typeof childElement === "string") {
+          const domNode = document.createElement("div");
+          ReactDOM.render(
+            <div dangerouslySetInnerHTML={{ __html: childElement }} />,
+            domNode
+          );
+          portalElement.appendChild(domNode);
+        } else {
+          portalElement.appendChild(childElement as unknown as Node);
+        }
+      }
 
       // will add close icon if passed
       if (isCloseIcon) {
@@ -134,14 +185,19 @@ const useToast = () => {
         );
 
         if (closeIconStyling) {
-          Object.assign(closeIcon.style, closeIconStyling);
+          Object.entries(closeIconStyling).forEach(
+            ([key, value]: [string, string]) => {
+              closeIcon.style[key as any] = value;
+            }
+          );
         }
 
         closeIcon.onclick = () => {
-          // we clear timeout and remove toast on close 
+          // we clear timeout and remove toast on close
           if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
           }
+          timeoutRef.current = null;
           setShowToast(false);
           document.body.removeChild(portalElement);
         };
@@ -156,7 +212,11 @@ const useToast = () => {
 
       // Apply position styles
       if (position) {
-        Object.assign(portalElement.style, getPositionStyles(position));
+        Object.entries(getPositionStyles(position)).forEach(
+          ([key, value]: [string, string]) => {
+            portalElement.style[key as any] = value;
+          }
+        );
       }
 
       document.body.appendChild(portalElement);
@@ -166,6 +226,7 @@ const useToast = () => {
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         }
+        timeoutRef.current = null;
         if (document.body.contains(portalElement)) {
           document.body.removeChild(portalElement);
         }
