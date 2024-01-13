@@ -7,12 +7,14 @@ export const Toast = (props: IAddToast) => {
     addToast(props);
   };
   return (
-    <button
-      type="button"
-      className="h-auto p-4"
-      onClick={() => handleClick(props)}
-    >
-      Click Me
-    </button>
+    <div>
+      <button
+        type="button"
+        className="h-auto p-4 bg-white text-black rounded"
+        onClick={() => handleClick(props)}
+      >
+        Click Me
+      </button>
+    </div>
   );
 };

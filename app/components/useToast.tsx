@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export type ToastPosition =
   | "top-left"
@@ -21,7 +21,7 @@ export interface IAddToast {
   /**
    * css for main div of toast (not mandatory)
    */
-  parentStyle?: React.CSSProperties; 
+  parentStyle?: React.CSSProperties;
   /**
    * css for message of toast (not mandatory)
    */
@@ -35,7 +35,7 @@ export interface IAddToast {
    */
   closeIconStyling?: React.CSSProperties;
   /**
-   * position of toast 
+   * position of toast
    * default set to top-left
    */
   position?: ToastPosition;
@@ -49,17 +49,18 @@ export interface IAddToast {
 const useToast = () => {
   const [showToast, setShowToast] = useState(false);
   const [props, setProps] = useState<IAddToast>({});
+  // to store the set timout so that we can clear it when click on close
+  const timeoutRef = useRef<number | null>(null);
 
   const addToast = (props: IAddToast) => {
     const { autoHideDuration = 2000 } = props;
     setShowToast(true);
     setProps(props);
-    setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       setShowToast(false);
       setProps({});
     }, autoHideDuration);
   };
-
   const getPositionStyles = (position: string) => {
     switch (position) {
       case "top-left":
@@ -72,7 +73,7 @@ const useToast = () => {
         return { bottom: "10", right: "10" };
       case "top-center":
         return { top: "10", right: "50%" };
-    case "bottom-center":
+      case "bottom-center":
         return { bottom: "10", right: "50%" };
       default:
         return {};
@@ -91,7 +92,7 @@ const useToast = () => {
         position = "top-right",
       } = props;
       const portalElement = document.createElement("div");
-      // base css using tailwind
+      // adding tailwind css for base styleing of toast
       portalElement.classList.add(
         "bg-white",
         "text-black",
@@ -106,9 +107,10 @@ const useToast = () => {
         "h-auto",
         "shadow-xl"
       );
-      const pElement = document.createElement("p");
 
+      // if content will add element and styling for that if passed from props
       if (content) {
+        const pElement = document.createElement("p");
         pElement.textContent = content;
         // Apply custom styles on content
         if (contentStyle) {
@@ -119,6 +121,7 @@ const useToast = () => {
 
       if (childElement) portalElement.appendChild(childElement);
 
+      // will add close icon if passed
       if (isCloseIcon) {
         const closeIcon = document.createElement("span");
         closeIcon.innerHTML = "&times;";
@@ -135,7 +138,12 @@ const useToast = () => {
         }
 
         closeIcon.onclick = () => {
-          pElement.remove();
+          // we clear timeout and remove toast on close 
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+          setShowToast(false);
+          document.body.removeChild(portalElement);
         };
 
         portalElement.appendChild(closeIcon);
@@ -154,7 +162,13 @@ const useToast = () => {
       document.body.appendChild(portalElement);
 
       const cleanup = () => {
-        document.body.removeChild(portalElement);
+        setShowToast(false);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+        if (document.body.contains(portalElement)) {
+          document.body.removeChild(portalElement);
+        }
       };
 
       return cleanup;
