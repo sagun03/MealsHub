@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-type ToastPosition =
+export type ToastPosition =
   | "top-left"
   | "top-right"
   | "bottom-left"
@@ -10,13 +10,39 @@ type ToastPosition =
   | "bottom-center";
 
 export interface IAddToast {
+  /**
+   * message for toast (not mandatory)
+   */
   content?: string;
+  /**
+   * element for toast (not mandatory)
+   */
   childElement?: Element;
-  parentStyle?: React.CSSProperties;
+  /**
+   * css for main div of toast (not mandatory)
+   */
+  parentStyle?: React.CSSProperties; 
+  /**
+   * css for message of toast (not mandatory)
+   */
   contentStyle?: React.CSSProperties;
-  hasClose?: boolean;
+  /**
+   * close icon for toast (not mandatory)
+   */
+  isCloseIcon?: boolean;
+  /**
+   * styling for close icon of toast (not mandatory)
+   */
   closeIconStyling?: React.CSSProperties;
+  /**
+   * position of toast 
+   * default set to top-left
+   */
   position?: ToastPosition;
+  /**
+   * hide duration fo the toast
+   * default set to 2 sec
+   */
   autoHideDuration?: number;
 }
 
@@ -58,7 +84,7 @@ const useToast = () => {
       const {
         content,
         childElement,
-        hasClose,
+        isCloseIcon,
         parentStyle,
         contentStyle,
         closeIconStyling,
@@ -93,7 +119,7 @@ const useToast = () => {
 
       if (childElement) portalElement.appendChild(childElement);
 
-      if (hasClose) {
+      if (isCloseIcon) {
         const closeIcon = document.createElement("span");
         closeIcon.innerHTML = "&times;";
         closeIcon.classList.add(
@@ -121,8 +147,8 @@ const useToast = () => {
       }
 
       // Apply position styles
-      if (props.position) {
-        Object.assign(portalElement.style, getPositionStyles(props.position));
+      if (position) {
+        Object.assign(portalElement.style, getPositionStyles(position));
       }
 
       document.body.appendChild(portalElement);

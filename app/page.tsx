@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export default function Home() {
   const { addToast } = useToast();
   useEffect(() => {
-    addToast({ content: "Hi this is a demo Hi this is a demo Hi this is a demo Hi this is a demo", autoHideDuration: 5000});
+    addToast({ content: "Hi this is a demo Hi this is a demo Hi this is a demo Hi this is a demo", autoHideDuration: 50000});
   }, []);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
