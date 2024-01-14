@@ -54,7 +54,6 @@ const useToast = () => {
   const timeoutRef = useRef<number | null>(null);
 
   const addToast = (props: IAddToast) => {
-    console.log(props);
     const { autoHideDuration = 2000 } = props;
     setShowToast(true);
     setProps(props);
