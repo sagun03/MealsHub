@@ -22,6 +22,8 @@ const meta = {
             various configurations.
           </DocBlock.Subtitle>
           <DocBlock.Source
+            dark={true}
+            format={true}
             language="jsx"
             code={`
             const Toast = () => {
@@ -30,7 +32,6 @@ const meta = {
             const handleClick = () => {
               addToast({
                 content: "This is the content",
-                childElement: <div>You can add Element if you want</div>,
                 isCloseIcon: true,
                 parentStyle: { padding: "1rem" },
                 contentStyle: { padding: "1rem" },
