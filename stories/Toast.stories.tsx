@@ -45,7 +45,11 @@ const meta = {
             };
             `}
           />
-          <DocBlock.Subtitle />
+          <DocBlock.Subtitle>
+            To demostrate we are using the addToast function from useToast hook
+            in Toast Component, passing the props in Toast component and then
+            passing that into addToast function.
+          </DocBlock.Subtitle>
           <DocBlock.Description />
           <DocBlock.Primary />
           <DocBlock.Controls />
