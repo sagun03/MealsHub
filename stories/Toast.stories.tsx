@@ -78,7 +78,6 @@ const meta = {
         defaultValue: { summary: "2 sec" },
       },
     },
-    childElement: { control: "text" },
   },
 } satisfies Meta<typeof Toast>;
 
@@ -111,13 +110,6 @@ export const toastWithBottomRightPosition: Story = {
     content: "A Basic toast",
     isCloseIcon: true,
     position: "bottom-right",
-  },
-};
-
-export const toastWithChildElment: Story = {
-  args: {
-    childElement:
-      `<div>Hi I'm a child element</div>` as unknown as React.ReactElement,
   },
 };
 

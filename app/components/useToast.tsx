@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
 
 export type ToastPosition =
   | "top-left"
@@ -15,10 +14,6 @@ export interface IAddToast {
    * message for toast (not mandatory)
    */
   content?: string;
-  /**
-   * element for toast (not mandatory)
-   */
-  childElement?: React.ReactElement;
   /**
    * css for main div of toast (not mandatory)
    */
@@ -119,7 +114,6 @@ const useToast = () => {
     if (showToast) {
       const {
         content,
-        childElement,
         isCloseIcon,
         parentStyle,
         contentStyle,
@@ -144,7 +138,6 @@ const useToast = () => {
         "shadow-xl"
       );
 
-      // if content will add element and styling for that if passed from props
       if (content) {
         const pElement = document.createElement("p");
         pElement.textContent = content;
@@ -157,19 +150,6 @@ const useToast = () => {
           );
         }
         portalElement.appendChild(pElement);
-      }
-
-      if (childElement !== undefined && childElement !== null) {
-        if (typeof childElement === "string") {
-          const domNode = document.createElement("div");
-          ReactDOM.render(
-            <div dangerouslySetInnerHTML={{ __html: childElement }} />,
-            domNode
-          );
-          portalElement.appendChild(domNode);
-        } else {
-          portalElement.appendChild(childElement as unknown as Node);
-        }
       }
 
       // will add close icon if passed
