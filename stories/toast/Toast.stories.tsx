@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../app/globals.css";
+import "../../app/globals.css";
 import { Toast } from "./Toast";
 import * as DocBlock from "@storybook/blocks";
 import * as React from "react";

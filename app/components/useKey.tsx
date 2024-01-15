@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-type ActionCallback = () => void;
+export type ActionCallback = () => void;
 
 export interface IUseKey {
   /**
@@ -12,25 +12,31 @@ export interface IUseKey {
    */
   action: ActionCallback;
 }
-type Action = () => {};
+type Action = () => void;
 
 const useKey = () => {
-  const [props, setProps] = useState<IUseKey | null>(null);
+  const actionRef = useRef<IUseKey | null>(null);
 
-  const handleKey = (e: KeyboardEvent) => {
-    console.log("this is pressed", e);
-  };
+
   useEffect(() => {
-    window.addEventListener('keydown', handleKey)
+    const handleKey = (e: KeyboardEvent) => {
+      console.log('e', e, actionRef.current)
+      if (actionRef.current && e.key === actionRef.current.key) {
+        actionRef.current.action();
+      }
+    };
 
-    return () =>  {
-      window.removeEventListener('keydown', handleKey)
-    }
-  }, [])
+    window.addEventListener("keydown", handleKey);
+
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      actionRef.current = null;
+    };
+  }, []);
   const keyAction = (key: string, action: Action) => {
-    setProps({ key, action });
+    actionRef.current = { key, action };
   };
-  return keyAction;
+  return { keyAction };
 };
 
 export default useKey;

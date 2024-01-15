@@ -1,5 +1,5 @@
 import React from "react";
-import useToast, { IAddToast } from "../app/components/useToast";
+import useToast, { IAddToast } from "../../app/components/useToast";
 
 export const Toast = (props: IAddToast) => {
   const { addToast } = useToast();
