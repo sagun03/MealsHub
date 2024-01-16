@@ -20,9 +20,12 @@ const useKey = () => {
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      console.log('e', e, actionRef.current)
       if (actionRef.current && e.key === actionRef.current.key) {
-        actionRef.current.action();
+        const isInputField = e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement;
+        if (!isInputField) {
+          e.preventDefault(); 
+          actionRef.current.action();
+        }
       }
     };
 
