@@ -35,7 +35,7 @@ const useKey = () => {
       window.removeEventListener("keydown", handleKey);
       actionRef.current = null;
     };
-  }, []);
+  }, [actionRef.current]);
   const keyAction = (key: string, action: Action) => {
     actionRef.current = { key, action };
   };

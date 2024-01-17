@@ -51,12 +51,13 @@ const meta = {
         </>
       ),
     },
+    backgrounds: {
+      default: 'dark',
+    },
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
-  args: {
-  },
   argTypes: {   
   },
 } satisfies Meta<typeof SearchForm>;
@@ -70,7 +71,6 @@ export const useKeyWithCustomKey: Story = {
     keyValue: "y",
     action: () => {
       const searchInput = document.getElementById("input-search");
-      console.log('searchInput', searchInput)
       if (searchInput) {
         // Check if the element exists before calling blur
         searchInput.focus();

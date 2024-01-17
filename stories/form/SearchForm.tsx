@@ -1,6 +1,7 @@
 // SearchForm.tsx
 import React, { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import useKey from "../../app/components/useKey";
+import "../../app/globals.css";
 
 interface SearchFormProps {
   keyValue: string;
