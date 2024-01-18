@@ -17,7 +17,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ keyValue, action }) => {
   };
   useEffect(() => {
     keyAction(keyValue, action);
-  }, [])
+  }, [keyValue, action])
+
   return (
     <div className="grid gap-4 grid-cols-2 bg-red-900 items-center">
       <label className="mr-2">Search:</label>
