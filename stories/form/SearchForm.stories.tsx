@@ -121,16 +121,12 @@ export default SearchComponent;
           },`
         },
       },
+      defaultValue: action('CALLBACK CALLED')
     },
   },
   args: {
     keyValue: "y",
-    action: () => {
-      const searchInput = document.getElementById("input-search");
-      if (searchInput) {
-        searchInput.focus();
-      }
-    },
+    
   },
 } satisfies Meta<typeof SearchForm>;
 

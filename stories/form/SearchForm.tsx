@@ -10,7 +10,7 @@ interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = ({ keyValue, action }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-
+console.log(keyValue, action)
   const { keyAction } = useKey();
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
