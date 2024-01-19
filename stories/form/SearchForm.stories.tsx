@@ -3,6 +3,7 @@ import * as DocBlock from "@storybook/blocks";
 import * as React from "react";
 import SearchForm from "./SearchForm";
 import "../../app/globals.css";
+import { action } from '@storybook/addon-actions';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -108,17 +109,27 @@ export default SearchComponent;
       },
     },
     action: {
+      control: 'function',
+      description: 'A callback function triggered when the specified key is pressed',
       table: {
         defaultValue: {
-          summary: () => {
+          summary: `() => {
             const searchInput = document.getElementById("input-search");
             if (searchInput) {
-              // Check if the element exists before calling blur
               searchInput.focus();
             }
-          },
+          },`
         },
       },
+    },
+  },
+  args: {
+    keyValue: "y",
+    action: () => {
+      const searchInput = document.getElementById("input-search");
+      if (searchInput) {
+        searchInput.focus();
+      }
     },
   },
 } satisfies Meta<typeof SearchForm>;
