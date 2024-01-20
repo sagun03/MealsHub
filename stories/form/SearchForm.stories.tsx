@@ -88,7 +88,6 @@ export default SearchComponent;
 `}
           />
           <DocBlock.Description />
-          <DocBlock.Primary />
           <DocBlock.Controls />
           <DocBlock.Stories />
         </>
@@ -134,6 +133,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+
 export const useKeyWithCustomKey: Story = {
   args: {
     keyValue: "y",
@@ -146,3 +146,5 @@ export const useKeyWithCustomKey: Story = {
     },
   },
 };
+
+
