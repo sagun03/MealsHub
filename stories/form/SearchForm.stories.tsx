@@ -5,6 +5,7 @@ import SearchForm from "./SearchForm";
 import "../../app/globals.css";
 import { action } from '@storybook/addon-actions';
 
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: "Example/ShortcutKeys",
@@ -102,9 +103,16 @@ export default SearchComponent;
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
     keyValue: {
+      control: {
+        type: 'text',
+      },
       defaultvalue: "y",
       table: {
         defaultValue: { summary: "y" },
+      },
+      type: {
+        name: 'string',
+        required: true,
       },
     },
     action: {

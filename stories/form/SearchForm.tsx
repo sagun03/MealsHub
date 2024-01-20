@@ -10,25 +10,30 @@ interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = ({ keyValue, action }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-console.log(keyValue, action)
+  console.log(keyValue, action);
   const { keyAction } = useKey();
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
   useEffect(() => {
     keyAction(keyValue, action);
-  }, [keyValue, action])
+  }, [keyValue, action]);
 
   return (
-    <div className="grid gap-4 grid-cols-2 bg-red-900 items-center">
+    <div className="flex items-center flex-col">
       <label className="mr-2">Search:</label>
-      <input
-        type="text"
-        id="input-search"
-        value={searchTerm}
-        onChange={handleInputChange}
-        className="border border-green-400 text-black p-2"
-      />
+      <div className="bg-white flex">
+        <input
+          type="text"
+          id="input-search"
+          value={searchTerm}
+          onChange={handleInputChange}
+          className="border text-black p-2"
+        />
+        <div className="text-black flex w-8 flex w-full p-2">
+          <div className="border w-full text-center text-black border-gray-800">{keyValue}</div>
+        </div>
+      </div>
     </div>
   );
 };
